@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signin</title>
+    <link rel="stylesheet" href="/CSS/styles.css">
+</head>
+<body>
+    <div class="full-screen-container">
+        <div class="login-container">
+            <h1 class="login-title">Sign up</h1>
+
+            <form class="form" action="/signup" method="post">
+
+                <div class="input-group" id="email-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email-input" onkeyup="emailChange()">
+                    <span class="msg" id="email-msg">Invalid email</span>
+                </div>
+
+                <div class="input-group" id="password-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password-input" onkeyup="passwordChange(), confirmChange()">
+                    <span class="msg" id="password-msg">Message</span>
+                </div>
+
+                <div class="input-group" id="confirm-group">
+                    <label for="confirm">Confirm password</label>
+                    <input type="password" name="confirm" id="confirm-input" onkeyup="confirmChange()">
+                    <span class="msg" id="confirm-msg">Message</span>
+                </div>
+            
+                <button type="submit" class="login-button" id="login-button">Create new account</button>
+            </form>
+
+            <div class="divider">Or</div>
+
+            <div class="options">
+                <a href="login">Login</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle login button
+        const loginButton = document.getElementById("login-button");
+
+        loginButton.disabled = true;
+
+        // Email validation
+        const emailInput = document.getElementById("email-input");
+        const emailGroup = document.getElementById("email-group");
+        const emailMessage = document.getElementById("email-msg");
+        let firstStep = 0;
+        let secondStep = 0;
+
+        function emailChange() {
+            const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+
+            if(emailInput.value === ""){
+                emailGroup.classList.toggle("error", !isValidEmail);
+                emailMessage.innerHTML = '<span class="msg" id="email-msg">Please enter your email address</span>';
+                firstStep = 0;
+            } else {
+                emailGroup.classList.toggle("error", !isValidEmail);
+                firstStep = 1;
+
+                if(!isValidEmail) {
+                    emailMessage.innerHTML = '<span class="msg" id="email-msg">Invalid email address</span>';
+                    firstStep = 0;
+                }
+            }
+
+            if(firstStep === 1 & secondStep === 1){
+                loginButton.disabled = false;
+            }
+            else{
+                loginButton.disabled = true;
+            }
+        }
+
+        // Strong password validation
+        const passwordInput = document.getElementById("password-input");
+        const passwordGroup = document.getElementById("password-group");
+        const passwordMessage = document.getElementById("password-msg");
+
+        function passwordChange() {
+            function classChange() {
+                if(passwordGroup.classList.contains("success")){
+                    passwordGroup.classList.replace("success", "error");
+                }
+                else{
+                    passwordGroup.classList.add("error");
+                }
+            }
+
+            if(passwordInput.value === ""){
+                passwordMessage.innerHTML = '<span class="msg" id="password-msg">Please enter password</span>';
+                
+            }
+            else if(passwordInput.value.length < 12) {
+                passwordMessage.innerHTML = '<span class="msg" id="password-msg">Password must be at least 12 characters</span>';
+                classChange();
+            }
+            else if(passwordInput.value.search(/[a-z]/) < 0){
+                passwordMessage.innerHTML = '<span class="msg" id="password-msg">Password must contain at least one lowercase letter</span>';
+                classChange();
+            }
+            else if(passwordInput.value.search(/[A-Z]/) < 0){
+                passwordMessage.innerHTML = '<span class="msg" id="password-msg">Password must contain at least one uppercase letter</span>';
+                classChange();
+            }
+            else if(passwordInput.value.search(/[0-9]/) < 0){
+                passwordMessage.innerHTML = '<span class="msg" id="password-msg">Password must contain at least one number</span>';
+                classChange();
+            }
+            else{
+                passwordGroup.classList.replace("error", "success");
+                passwordMessage.innerHTML = '<span class="msg" id="password-msg">Valid password</span>';
+            }
+        }
+
+        // Confirm password validation
+        const confirmInput = document.getElementById("confirm-input");
+        const confirmGroup = document.getElementById("confirm-group");
+        const confirmMessage = document.getElementById("confirm-msg");
+
+        function confirmChange() {
+            if(passwordGroup.classList.contains("success")){
+                if(confirmInput.value === passwordInput.value){
+                    confirmGroup.classList.add("success");
+                    confirmMessage.innerHTML = '<span class="msg" id="password-msg">Confirmed</span>';
+                    secondStep = 1;
+                }
+                else{
+                    confirmGroup.classList.remove("success");
+                    secondStep = 0;
+                }
+            }
+            else{
+                confirmGroup.classList.remove("success");
+                secondStep = 0;
+            }
+
+            if(firstStep === 1 & secondStep === 1){
+                loginButton.disabled = false;
+            }
+            else{
+                loginButton.disabled = true;
+            }
+        }
+
+
+    </script>
+    
+</body>
+</html>

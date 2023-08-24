@@ -9,6 +9,7 @@
     --primary-dark-hsl: 200, 100%, 6%;
     --success-hsl: 100, 60%, 50%;
     --error-hsl: 0, 60%, 50%;
+    --disabled-hls: 0, 0%, 0%;
 }
 
 body {
@@ -16,7 +17,7 @@ body {
 }
 
 .full-screen-container {
-    background-image: url(/client/JPG/background.jpg);
+    background-image: url(/JPG/background.jpg);
     height: 100vh;
     width: 100vw;
     background-size: cover;
@@ -63,8 +64,8 @@ body {
 }
 
 .input-group input {
-    font-size: 1.25rem;
-    padding: .5em;
+    font-size: 0.9rem;
+    padding: 1em;
     background-color: hsl(var(--primary-light-hsl), .3);
     border: none;
     outline: none;
@@ -104,22 +105,33 @@ body {
     color: hsl(var(--success-hsl));
 }
 
-.login-button {
-    padding: .6em 1em;
+.login-button{
+    padding: .9em 1em;
     width: 100%;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     font-weight: lighter;
-    color: white;
-    background-color: hsl(var(--primary-hsl), .25);
-    border: 1px solid hsl(var(--primary-hsl));
+    
     border-radius: .25em;
     outline: none;
     cursor: pointer;
     transition: 0.3s;
 }
 
-.login-button:hover,
-.login-button:focus {
+button:enabled {
+    color: white;
+    background-color: hsl(var(--primary-hsl), .25);
+    border: 1px solid hsl(var(--primary-hsl));
+}
+
+button:disabled{
+    color: rgb(67, 67, 67);
+    background-color: hsl(var(--disabled-hls), 0.3);
+    border: 1px solid hsl(var(--disabled-hls), .1);
+    cursor: default;
+}
+
+.login-button:enabled:hover,
+.login-button:enabled:focus {
     background-color: hsl(var(--primary-hsl), .4);
     transition: 0.3s;
 }
@@ -297,3 +309,5 @@ ul .apple:hover path{
     fill: white;
     transition: 0.3s;
 }
+
+
